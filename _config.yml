@@ -1,0 +1,30 @@
+---
+title: yczeng.github.io
+timezone: America/New_York
+collections:
+  posts:
+    title: Posts
+    output: true
+  projects:
+    title: Projects
+    output: true
+  uploads:
+    title: Uploads
+    output: true
+permalink: "/blog/:title"
+name: Zachary Pitcher
+description: Catherine's personal website.
+google_verification: 
+include:
+- ".htaccess"
+exclude:
+- README.md
+- LICENSE
+sass:
+  style: compressed
+  sass_dir: _sass
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+highlighter: rouge
