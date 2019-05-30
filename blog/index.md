@@ -3,4 +3,4 @@ title: Blog
 layout: blog
 ---
 
-This is the blog main page.
+Hello, my name is Zachary Pitcher aka zackpi.
