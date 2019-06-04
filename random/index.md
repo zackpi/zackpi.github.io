@@ -3,4 +3,4 @@ title: Random
 layout: random
 ---
 
-Hello this is a random landing page
+click this button if you dare

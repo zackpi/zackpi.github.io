@@ -1,3 +1,3 @@
-# website
+# Zackpi Personal Website and Blog
 
-testing
+that's all, not much to it. Used jekyll
