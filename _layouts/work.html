@@ -18,3 +18,14 @@ layout: default
         {{ content }}
     </div>
 </div>
+
+<div class="blog">
+    <h1></h1>
+    <ul>
+        {% for post in site.blog_posts %}
+        <li>
+            <span class="date">{{ post.date | date: '%Y %b %d' }}</span> - <a href="{{ post.url }}">{{ post.title }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>

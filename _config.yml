@@ -1,19 +1,19 @@
 ---
-title: yczeng.github.io
+title: zackpi.github.io
 timezone: America/New_York
 collections:
-  posts:
-    title: Posts
+  blog:
+    title: Blog Posts
     output: true
-  projects:
-    title: Projects
+  hobby:
+    title: Hobby Projects
     output: true
-  uploads:
-    title: Uploads
+  work:
+    title: Work Projects
     output: true
-permalink: "/blog/:title"
+
 name: Zachary Pitcher
-description: Catherine's personal website.
+description: zackpi personal website
 google_verification: 
 include:
 - ".htaccess"

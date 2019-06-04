@@ -13,19 +13,19 @@ layout: default
     </ul>
 </div>
 
-<div class="about">
-    <div class="about__content">
+<div class="post">
+	
+    	
+    <div class="post__title">
+    	<h1>{{ page.title }}</h1>
+    </div>
+    <div class="post__date">
+    	<p>{{ page.date | date: '%B %-d, %Y' }}</p>
+    </div>
+    <div class="post__meta">
+    	<p>{{ tags_content }}</p>
+    </div>
+    <div class="post__content"?>
         {{ content }}
     </div>
-</div>
-
-<div class="blog">
-    <h1></h1>
-    <ul>
-        {% for project in site.hobby %}
-        <li>
-            <a href="{{ project.url }}">{{ project.title }}</a>
-        </li>
-        {% endfor %}
-    </ul>
 </div>
