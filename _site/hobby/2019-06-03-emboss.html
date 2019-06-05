@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Zachary Pitcher &mdash; Homepage</title>
+    <meta charset="utf-8">
+        <meta property="og:title" content="Zachary Pitcher"/>
+        <meta property="og:url" content="https://yczeng.github.io"/>
+        <meta property="og:image" content=""/>
+        <meta name="description" content="My name is Zachary Pitcher and I am a student at MIT.">
+        <meta name="author" content="Zachary Pitcher">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    
+        <title>Virtual Embossing Software</title>
+    
+
+    <meta name="description" content="zackpi personal website">
+
+    
+
+    <link rel="icon" href="/assets/img/blog.png">
+    <link href="https://fonts.googleapis.com/css?family=Alegreya|Roboto|Roboto+Mono" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="header">
+    <h1><a href="/">Zachary Pitcher</a></h1>
+    <ul>
+        
+        <li>
+            <a href="/">index</a>
+        </li>
+        
+        <li>
+            <a href="/about">about</a>
+        </li>
+        
+        <li>
+            <a href="/blog">blog</a>
+        </li>
+        
+        <li>
+            <a href="/hobby">hobby</a>
+        </li>
+        
+        <li>
+            <a href="/work">work</a>
+        </li>
+        
+        <li>
+            <a href="/random">random</a>
+        </li>
+        
+    </ul>
+</div>
+
+<div class="post">
+    	
+    <div class="post__title">
+    	<h1>Virtual Embossing Software</h1>
+    </div>
+    <div class="post__date">
+    	<p>June 3, 2019</p>
+    </div>
+    <div class="post__meta">
+    	<p></p>
+    </div>
+    <div class="post__content"?>
+        <p>My friend Ed Ho makes paper art over on his <img src="https://www.youtube.com/channel/UCF81fbvHsdvkGg2WCNvGIJA" alt="youtube channel" /> and we are currently roommates (summer ‘19). A big project he’s been working on is making embossings using layered cutouts of paper that he designs in Adobe Illustrator and cuts out either by hand with an Xacto knife or with his Cricut (a 2d plotter with a knife attachment so you can trace along and cut out a vector image). The trick was he would make the 3d cavities out of the empty spaces in that paper, then he would push thicker paper into that negative space to leave an embossed positive on the surface. Check out one of his pieces <a href="https://www.youtube.com/">here</a>.</p>
+
+<p>His overall project was to make a poster design and corresponding embossing for each of the <img src="https://www.studioghibli.com.au/" alt="Studio Ghibli" /> films–My Neighbour Totoro, Spirited Away, etc. Each iteration of his design took over an hour to tweak, print, glue, and press. And he would often have to go through multiple iterations to perfect each design. And since there are 24 Ghibli films, I figured this was a job for Software Engineering™!</p>
+
+<p>I have a summer’s worth of experience doing <a href="../work/waylens">computer graphics / image processing work</a> for <a href="https://waylens.com/">Waylens</a>, so since I know my way around OpenCV I was able to put together a decent script that would simplify Ed’s life and in his words, “Change the game” for his design workflow during this and other embossing projects.</p>
+
+<p>The script accepts an image of his design and approximates what the final embossed paper would look like. It performs well enough that he can skip several laborious steps in the design process and just focus on the aesthetics. It also allows him to take risks and compare lots of different options because now there’s little cost to try random changes, whereas before it would have wasted over an hour if he made a mistake in the design phase.</p>
+
+<p>Here’s some sample output for a <a href="https://edho-design.github.io">Totoro poster</a> before we get into the code. The left is the layers that you put into the program, the middle is the output of the program, and the right is</p>
+
+<p><img src="/assets/img/totoro_layers.png" alt="totoro layers" width="500" />
+<img src="/assets/img/totoro_virtual.png" alt="embossed virtual totoro" width="500" />
+<img src="/assets/img/totoro_final.jpg" alt="embossed paper totoro" width="500" /></p>
+
+<p><img src="/assets/img/noface_layers.png" alt="noface layers" width="500" />
+<img src="/assets/img/noface_virtual.png" alt="embossed virtual noface" width="500" /></p>
+
+<p>Finally, here is another example of the program output vs the final paper version for a <a href="https://edho-design.github.io">Princess Mononoke poster</a>:</p>
+
+<p><img src="/assets/img/mononoke_virtual.png" alt="embossed virtual mononoke" width="500" />
+<img src="/assets/img/mononoke_final.jpg" alt="embossed paper mononoke" width="500" /></p>
+
+    </div>
+</div>
+
+    </div>
+
+</body>
+
+</html>

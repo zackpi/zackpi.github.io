@@ -1,7 +1,7 @@
 ---
 title: Creating a Post
-date: 2017-02-04 19:00:00 -05:00
-layout: post
+date: 2017-02-04 19:00
+layout: blogpost
 ---
 
 To make your first blog post, just create a new markdown file in the `_posts` directory with the title format `YYYY-MM-DD-title.md`. Posts follow the simple [markdown syntax](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) and can include a wide array of multimedia formats.

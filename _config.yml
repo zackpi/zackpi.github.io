@@ -11,6 +11,9 @@ collections:
   work:
     title: Work Projects
     output: true
+  random:
+    title: Random Stuff
+    output: true
 
 name: Zachary Pitcher
 description: zackpi personal website
