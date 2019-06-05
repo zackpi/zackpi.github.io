@@ -96,23 +96,47 @@
 </code></pre>
 </div>
 
-<p>Since I’ve assumed the edges of layers in the image are across changes in saturation, I will use a canny filter to find the places with the maximum gradient on the S channel. I chose the thresholding on the canny filter (0,50) to trigger on just about any edge since each layer is a single color so there shouldn’t really be any rogue curves in undesirable regions. Also, the screenshot is often noisy (due to the rasterization in Adobe Illustrator’s rendering step or jpeg compression by the screen capture software). So I applied a Gaussian blur beforehand to smooth any high-frequency noise (occuring pixel-to-pixel) and leave just the intended edges.</p>
+<p>Now we’re ready to start figuring out what saturation levels exist in the most prominent numbers and interpret those (with reasonable cutoffs) as the different layers of the image. First I collected a histogram of all the saturation values in the image. Then I used scipy’s <code class="highlighter-rouge">find_peaks</code> function to locate the most frequently appearing values.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">blur</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">GaussianBlur</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">edge</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">Canny</span><span class="p">(</span><span class="n">blur</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">val_count</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">256</span>
+<span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">shape</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+  <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cols</span><span class="p">):</span>
+    <span class="n">val_count</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="n">val_count</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c"># since I'm masking off the noisy regions aka setting them to 0</span>
+<span class="n">colors</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">find_peaks</span><span class="p">(</span><span class="n">val_counts</span><span class="p">)</span>
 </code></pre>
 </div>
 
-<p>The last preprocessing step was to clean up the last of the aforementioned noise. I used a dilated version of the detected edges to mask off the pixels around the edges of the image where the gradients are more turbulent.</p>
+<p>If I plot this right away I can visually make out the different peaks that correspond to the different layers in the image, and the program would probably work for this image with the right parameters plugged into <code class="highlighter-rouge">find_peaks</code>. But I’m not sure that this would work for every image and it’s not clear what those parameters should be even for this one. Some more pre-processing will be necessary before applying <code class="highlighter-rouge">find_peaks</code>.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<p><img src="/assets/img/hobby/emboss/plot_linear.png" alt="plot of raw histogram data" width="500" /></p>
+
+<p>The plot shows that regions in the image have approximately exponentially decreasing areas. This fits a model of cartoony and simplified artwork, where there are large areas of solid color and some areas with more detail. This motivates taking the logarithm of the counts to make all of the peaks closer together so I can operate on them in parallel more effectively. Unfortunately, this magnifies the noise relative to the larger peaks.</p>
+
+<p><img src="/assets/img/hobby/emboss/plot_log_noisy.png" alt="plot of log noisy histogram data" width="500" /></p>
+
+<p>The next step is clearly to remove this noise. Since the noise is spread across the spectrum, it must not be coming from inside a solid region where the noise would be localized around a discrete saturation value. Instead, the noise exists mainly at the turbulent edges of these regions, where smoothing from Adobe Illustrator’s rastering and artifacts from the screen capture’s JPEG compression allow pixels to take on any value between those of the regions they border.</p>
+
+<p>In order to detect the edges, I will use a canny filter to find the places with the maximum gradient on the S channel. I chose the thresholding on the canny filter (0,50) to trigger on just about any edge since each layer is approximately a single value so there shouldn’t really be any rogue curves in undesirable regions. I applied a Gaussian blur beforehand to smooth the high-frequency noise that occurs pixel-to-pixel and leave just the most important edges that occur between solid regions. I then used a dilated version of the detected edges to mask off the fuzzy pixels near the edges. To make the color counts as clear as possible I was finally able to eliminate them.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># apply Canny filter</span>
+<span class="n">blur</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">GaussianBlur</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">edge</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">Canny</span><span class="p">(</span><span class="n">blur</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="c"># filter out noise at the edges</span>
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
 <span class="n">mask</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">dilate</span><span class="p">(</span><span class="n">edge</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">filt</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_not</span><span class="p">(</span><span class="n">mask</span><span class="p">),</span> <span class="n">v</span><span class="p">)</span>
 </code></pre>
 </div>
 
-<p><img src="/assets/img/hobby/emboss/noface_layers.png" alt="noface layers" width="500" />
-<img src="/assets/img/hobby/emboss/noface_virtual.png" alt="embossed virtual noface" width="500" /></p>
+<p>The resulting plot is much more promising. However, after applying the mask, the smallest regions got even smaller and now their area is so small that the noise in that region of the colorspace is still significant.
+<img src="/assets/img/hobby/emboss/plot_log_clean.png" alt="plot of log clean histogram data" width="500" /></p>
+
+<p>The final step to clean these peaks was to use one more assumption about the input image: that the levels are reasonably spaced in the color space. This justifies taking the z-score of each peak relative to a window around that saturation value to determine how significant its count is. Another trick was limiting the number of buckets to 128 or 64 since the peaks should be spaced far enough apart to be placed in different buckets, and any noise close to those values would get absorbed into the bucket instead of being its own peak. Both of these tricks led to a much cleaner plot, for which it was clear how to choose to parameters for <code class="highlighter-rouge">find_peaks</code>. I decided that if the height of the peak was greater than 1, meaning it was at least a standard deviation above the mean of the window around it in the color space, then the value was reasonably outlying and could be considered a peak. This rule yields the following peaks which correspond perfectly to the levels in the test image:</p>
+
+<p><img src="/assets/img/hobby/emboss/plot_norm.png" alt="plot of normalized histogram data" width="500" /></p>
 
 <p>Finally, here is another example of the program output vs the final paper version for a <a href="https://edho-design.github.io">Princess Mononoke poster</a>:</p>
 
