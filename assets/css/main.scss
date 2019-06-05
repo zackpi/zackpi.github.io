@@ -64,6 +64,7 @@ a{
 		display: block;
 		margin-top: 20px;
 		margin-bottom: 6px;
+		margin-left: 10%;
 		h1 {
 			display: inline-block;
 			font-size: 1.6em;
@@ -77,6 +78,7 @@ a{
 		p {
 			font-size: 1em;
 			font-style: italic;
+			margin-left: 10%;
 		}
 	}
 	&__meta {
@@ -99,13 +101,15 @@ a{
 			margin-bottom: 5px;
 		}
 		p {
-			font-size: 1em;
+			font-size: .75em;
 			line-height: 150%;
 			margin-bottom: 15px;
+			margin-left: 10%;
+			margin-right: 10%;
 		}
 		a {
 			padding-bottom: 1px;
-			color: #7a3074;
+			color: #aa60a4;
 			&:hover {			
 				text-decoration: none;
 			}
@@ -145,15 +149,17 @@ a{
 			padding: 3px;
 			font-family: 'Roboto', sans-serif;
 			font-size: 0.8em;
-			background: $color-grey;
+			background: green;
 		}
 		.highlight {
 			margin: 10px;
+			margin-left: 15%;
+			margin-right: 15%;
 			margin-bottom: 15px;
 			padding: 10px;
-			line-height: 1.5;
-			border-radius: 3px;
-			background: $color-grey;
+			line-height: 1;
+			border-radius: 5px;
+			background: green;
 			code {
 				color: $color-black;
 				background: none;

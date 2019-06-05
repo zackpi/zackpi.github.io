@@ -82,9 +82,9 @@
 
 <p>Here’s some sample output for a <a href="https://edho-design.github.io">Totoro poster</a> before we get into the code. The left is the layers that go into the program, the middle is the output of the program, and the right is the final version after pressing the paper through the mold.</p>
 
-<p><img src="/assets/img/hobby/emboss/totoro_layers.png" alt="totoro layers" width="500" />
-<img src="/assets/img/hobby/emboss/totoro_virtual.png" alt="embossed virtual totoro" width="500" />
-<img src="/assets/img/hobby/emboss/totoro_final.jpg" alt="embossed paper totoro" width="500" /></p>
+<p><img src="/assets/img/hobby/emboss/totoro_layers.png" alt="totoro layers" width="30%" />
+<img src="/assets/img/hobby/emboss/totoro_virtual.png" alt="embossed virtual totoro" width="30%" />
+<img src="/assets/img/hobby/emboss/totoro_final.jpg" alt="embossed paper totoro" width="30%" /></p>
 
 <p>I wanted to make the program as simple to use as possible, so the input could just be a simple screenshot of his work during the design phase. However, this means that some information about the layers in the design would be missing. Even more troublesome, information about the edges in the image is also destroyed when moving from the vector to raster world. Luckily, Ed was already using the saturation of the color in a given layer to denote its depth to him visually (see the leftmost Totoro above). So the program can use this hint in the opposite direction to distinguish the different parts of the design by the saturation channel of the HSV image.</p>
 
@@ -131,17 +131,18 @@
 </code></pre>
 </div>
 
-<p>The resulting plot is much more promising. However, after applying the mask, the smallest regions got even smaller and now their area is so small that the noise in that region of the colorspace is still significant.
-<img src="/assets/img/hobby/emboss/plot_log_clean.png" alt="plot of log clean histogram data" width="500" /></p>
+<p>The resulting plot is much more promising. However, after applying the mask, the smallest regions got even smaller and now their area is so small that the noise in that region of the colorspace is still significant.</p>
 
-<p>The final step to clean these peaks was to use one more assumption about the input image: that the levels are reasonably spaced in the color space. This justifies taking the z-score of each peak relative to a window around that saturation value to determine how significant its count is. Another trick was limiting the number of buckets to 128 or 64 since the peaks should be spaced far enough apart to be placed in different buckets, and any noise close to those values would get absorbed into the bucket instead of being its own peak. Both of these tricks led to a much cleaner plot, for which it was clear how to choose to parameters for <code class="highlighter-rouge">find_peaks</code>. I decided that if the height of the peak was greater than 1, meaning it was at least a standard deviation above the mean of the window around it in the color space, then the value was reasonably outlying and could be considered a peak. This rule yields the following peaks which correspond perfectly to the levels in the test image:</p>
+<p><img src="/assets/img/hobby/emboss/plot_log_clean.png" alt="plot of log clean histogram data" width="500" /></p>
+
+<p>The final step to clean these peaks was to use one more assumption about the input image: that the levels are reasonably spaced in the color space. This justifies taking the z-score of each peak relative to a window around that saturation value to determine how significant its count is. Another trick was limiting the number of buckets to 128 or 64 since the peaks should be spaced far enough apart to be placed in different buckets, and any noise close to those values would get absorbed into the bucket instead of being its own peak. Both of these tricks led to a much cleaner plot, for which it was clear how to choose the parameters for <code class="highlighter-rouge">find_peaks</code>. I decided that if the height of the peak was greater than 1, meaning it was at least a standard deviation above the mean of the window around it in the color space, then the value was reasonably outlying and could be considered a peak. This rule yields the following peaks which correspond perfectly to the levels in the test image:</p>
 
 <p><img src="/assets/img/hobby/emboss/plot_norm.png" alt="plot of normalized histogram data" width="500" /></p>
 
 <p>Finally, here is another example of the program output vs the final paper version for a <a href="https://edho-design.github.io">Princess Mononoke poster</a>:</p>
 
-<p><img src="/assets/img/hobby/emboss/mononoke_virtual.png" alt="embossed virtual mononoke" width="500" />
-<img src="/assets/img/hobby/emboss/mononoke_final.jpg" alt="embossed paper mononoke" width="500" /></p>
+<p><img src="/assets/img/hobby/emboss/mononoke_virtual.png" alt="embossed virtual mononoke" width="40%" />
+<img src="/assets/img/hobby/emboss/mononoke_final.jpg" alt="embossed paper mononoke" width="40%" /></p>
 
     </div>
 </div>
