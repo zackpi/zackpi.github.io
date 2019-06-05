@@ -72,7 +72,7 @@
     	<p></p>
     </div>
     <div class="post__content"?>
-        <p>My friend Ed Ho makes paper art over on his <img src="https://www.youtube.com/channel/UCF81fbvHsdvkGg2WCNvGIJA" alt="youtube channel" /> and we are currently roommates (summer ‘19). A big project he’s been working on is making embossings using layered cutouts of paper that he designs in Adobe Illustrator and cuts out either by hand with an Xacto knife or with his Cricut (a 2d plotter with a knife attachment so you can trace along and cut out a vector image). The trick was he would make the 3d cavities out of the empty spaces in that paper, then he would push thicker paper into that negative space to leave an embossed positive on the surface. Check out one of his pieces <a href="https://www.youtube.com/">here</a>.</p>
+        <p>My friend Ed Ho makes paper art over on his <img src="https://www.youtube.com/channel/UCF81fbvHsdvkGg2WCNvGIJA" alt="youtube channel" /> and we are currently roommates (summer ‘19). He’s been working on a series of projects making embossings using layered cutouts of paper that he designs in Adobe Illustrator and cuts out either by hand with an Xacto knife or with his <a href="https://www.silhouetteamerica.com/shop/machines/portrait">Silhouette Portait</a>. The trick was he would make the 3d cavities out of the empty spaces in that paper, then he would push thicker paper into the negative space to leave an embossed positive on the surface. Check out one of his pieces <a href="https://www.youtube.com/">here</a>.</p>
 
 <p>His overall project was to make a poster design and corresponding embossing for each of the <img src="https://www.studioghibli.com.au/" alt="Studio Ghibli" /> films–My Neighbour Totoro, Spirited Away, etc. Each iteration of his design took over an hour to tweak, print, glue, and press. And he would often have to go through multiple iterations to perfect each design. And since there are 24 Ghibli films, I figured this was a job for Software Engineering™!</p>
 
@@ -80,11 +80,36 @@
 
 <p>The script accepts an image of his design and approximates what the final embossed paper would look like. It performs well enough that he can skip several laborious steps in the design process and just focus on the aesthetics. It also allows him to take risks and compare lots of different options because now there’s little cost to try random changes, whereas before it would have wasted over an hour if he made a mistake in the design phase.</p>
 
-<p>Here’s some sample output for a <a href="https://edho-design.github.io">Totoro poster</a> before we get into the code. The left is the layers that you put into the program, the middle is the output of the program, and the right is</p>
+<p>Here’s some sample output for a <a href="https://edho-design.github.io">Totoro poster</a> before we get into the code. The left is the layers that go into the program, the middle is the output of the program, and the right is the final version after pressing the paper through the mold.</p>
 
 <p><img src="/assets/img/hobby/emboss/totoro_layers.png" alt="totoro layers" width="500" />
 <img src="/assets/img/hobby/emboss/totoro_virtual.png" alt="embossed virtual totoro" width="500" />
 <img src="/assets/img/hobby/emboss/totoro_final.jpg" alt="embossed paper totoro" width="500" /></p>
+
+<p>I wanted to make the program as simple to use as possible, so the input could just be a simple screenshot of his work during the design phase. However, this means that some information about the layers in the design would be missing. Even more troublesome, information about the edges in the image is also destroyed when moving from the vector to raster world. Luckily, Ed was already using the saturation of the color in a given layer to denote its depth to him visually (see the leftmost Totoro above). So the program can use this hint in the opposite direction to distinguish the different parts of the design by the saturation channel of the HSV image.</p>
+
+<p>With that in mind, the first thing the code does is read in an image corresponding to the input from the command line and change its color space to HSV.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span>
+<span class="n">hsv</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2HSV</span><span class="p">)</span>
+<span class="n">h</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">hsv</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Since I’ve assumed the edges of layers in the image are across changes in saturation, I will use a canny filter to find the places with the maximum gradient on the S channel. I chose the thresholding on the canny filter (0,50) to trigger on just about any edge since each layer is a single color so there shouldn’t really be any rogue curves in undesirable regions. Also, the screenshot is often noisy (due to the rasterization in Adobe Illustrator’s rendering step or jpeg compression by the screen capture software). So I applied a Gaussian blur beforehand to smooth any high-frequency noise (occuring pixel-to-pixel) and leave just the intended edges.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">blur</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">GaussianBlur</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">edge</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">Canny</span><span class="p">(</span><span class="n">blur</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>The last preprocessing step was to clean up the last of the aforementioned noise. I used a dilated version of the detected edges to mask off the pixels around the edges of the image where the gradients are more turbulent.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">dilate</span><span class="p">(</span><span class="n">edge</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">filt</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_not</span><span class="p">(</span><span class="n">mask</span><span class="p">),</span> <span class="n">v</span><span class="p">)</span>
+</code></pre>
+</div>
 
 <p><img src="/assets/img/hobby/emboss/noface_layers.png" alt="noface layers" width="500" />
 <img src="/assets/img/hobby/emboss/noface_virtual.png" alt="embossed virtual noface" width="500" /></p>
