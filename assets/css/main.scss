@@ -150,6 +150,28 @@ a{
 			font-family: 'Roboto', sans-serif;
 			font-size: 0.8em;
 			background: green;
+			color: white;
+		}
+		figure {
+			width: 60%;
+			margin:	20px auto;
+			display: flex;
+			flex-direction: column;
+			flex-wrap: nowrap;
+			align-items: center;
+		}
+		figure > div { 
+			width: 100%;
+			display: flex;
+			flex-flow: row nowrap;
+			align-items: center;
+		}
+		figure > div > img {
+			flex: 1 1 0;
+		}
+		figure > p {
+			font-size: 8pt;
+			color:	#aca;
 		}
 		.highlight {
 			margin: 10px;
