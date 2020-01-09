@@ -147,44 +147,52 @@ a{
 		}
 		code {
 			padding: 3px;
-			font-family: 'Roboto', sans-serif;
+			font-family: courier;
 			font-size: 0.8em;
 			background: green;
 			color: white;
 		}
 		figure {
+			max-width: 800px;
 			width: 60%;
 			margin:	20px auto;
 			display: flex;
 			flex-direction: column;
 			flex-wrap: nowrap;
 			align-items: center;
-		}
-		figure > div { 
-			width: 100%;
-			display: flex;
-			flex-flow: row nowrap;
-			align-items: center;
-		}
-		figure > div > img {
-			flex: 1 1 0;
-		}
-		figure > p {
-			font-size: 8pt;
-			color:	#aca;
+		
+			div { 
+				width: 100%;
+				display: flex;
+				flex-flow: row nowrap;
+				align-items: center;
+			
+				img {
+					flex: 1 1 0;
+				}
+			}
+
+			p {
+				font-size: 8pt;
+				color:	#aca;
+			}
 		}
 		.highlight {
-			margin: 10px;
-			margin-left: 15%;
-			margin-right: 15%;
-			margin-bottom: 15px;
+			margin: 15px auto;
+			width: 60%;
 			padding: 10px;
 			line-height: 1;
 			border-radius: 5px;
-			background: green;
+			background: #242;
 			code {
-				color: $color-black;
+				font-size:	10pt;
+				font-family: courier;
+				color: white;
 				background: none;
+			  tab-size: 4;
+			  -moz-tab-size: 4;
+			  -o-tab-size: 4;
+			  -webkit-tab-size: 4;
 			}
 		}
 		.codebreak {

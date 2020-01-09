@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
     
-        <title>Ti8X Z80 ASM Project Euler 00</title>
+        <title>Ti8x Z80 ASM Project Euler 00a</title>
     
 
     <meta name="description" content="zackpi personal website">
@@ -63,7 +63,7 @@
 <div class="post">
     	
     <div class="post__title">
-    	<h1>Ti8X Z80 ASM Project Euler 00</h1>
+    	<h1>Ti8x Z80 ASM Project Euler 00a</h1>
     </div>
     <div class="post__date">
     	<p>July 27, 2019</p>
@@ -83,7 +83,7 @@
 
 <p>I read the entirety of <a href="http://tibasicdev.wikidot.com/home">tibasicdev</a> and knew tons of tricks and hacks to make Ti-BASIC slightly faster (since the language was interpreted, this often involved removing characters and shortening code, also making it less legible in the process on top of the already obfuscating one-letter variables). I even made a <a href="https://drive.google.com/open?id=0ByPJCYXmeNcZN19ZOUZkWi1vajg">series of tutorials</a> with sample problems and solutions in Google Drive and convinced some younger folk to stay after school so I could teach them how to <em>harness the power</em> of their calculator.</p>
 
-<p>I wanted to make a full-fledged game and my friend <a href="https://edho-design.github.io">Ed Ho</a> who was really into rhythm games asked me if it was possible to make one on the calculator. And thus CALCHERO was born (kind of). The idea would have been to make a <a href="https://en.wikipedia.org/wiki/Guitar_Hero_III:_Legends_of_Rock">Guitar Hero</a> clone for the Ti-8X calculator, and the top 5 buttons would be the keys of the guitar, with the Enter button used to strum. Finally, it would in theory write music data to the port in real time that could be played on speakers or earphones. Yeah, it was a bold idea but I was determined. I tried at first to use Ti-BASIC but it’s hard to draw even the simplest moving sprites and the music aspect was all but impossible without a more powerful language. I turned my sights on the <a href="https://www.digikey.com/catalog/en/partgroup/z80/15507">Zilog Z80</a>, the processor at the center of the Ti-8X Calculators.</p>
+<p>I wanted to make a full-fledged game and my friend <a href="https://edho-design.github.io">Ed Ho</a> who was really into rhythm games asked me if it was possible to make one on the calculator. And thus CALCHERO was born (kind of). The idea would have been to make a <a href="https://en.wikipedia.org/wiki/Guitar_Hero_III:_Legends_of_Rock">Guitar Hero</a> clone for the Ti-8X calculator, and the top 5 buttons would be the keys of the guitar, with the Enter button used to strum. As a bonus, it would in theory write music data to the port in real time that could be played on speakers or earphones. Yeah, it was a bold idea but I was determined. I tried at first to use Ti-BASIC but it’s hard to draw even the simplest moving sprites and the music aspect was all but impossible without a more powerful language. I turned my sights on the <a href="https://www.digikey.com/catalog/en/partgroup/z80/15507">Zilog Z80</a>, the processor at the center of the Ti-8X Calculators.</p>
 
 <figure>
 	<div>
@@ -101,7 +101,7 @@
 	<p>Super Smash Bros Open made using Axe Parser by Hayleia of Omnimaga</p>
 </figure>
 
-<p>so I read <a href="https://tutorials.eeems.ca/ASMin28Days/lesson/toc.html"><em>Learn Ti-83 Plus Assembly in 28 Days</em></a>, and I learned a lot about how assembly works. But I was a bit in over my head at the time, and the end of the school year came and going off to college, I got distracted and dropped the project.</p>
+<p>so I read <a href="https://tutorials.eeems.ca/ASMin28Days/lesson/toc.html"><em>Learn Ti-83 Plus Assembly in 28 Days</em></a>, and I learned a lot about how assembly works. But I was a bit in over my head at the time, and when the end of the school year came and I went off to college, I got distracted and dropped the project.</p>
 
 <p>Fast-forward 3.5 years and I still love assembly and programming in general, and I’m arguably better at managing time to work on projects. So I sat down and finally reread “28 Days”, and set up a programming environment for Ti-8X Z80 Assembly. This time, I have a much more feasible goal: complete <em>some</em> <a href="https://projecteuler.net/">Project Euler</a> problems using Z80 Assembly. Obviously, I won’t be able to do all of them since some require having a massive amount of storage / clock speed (neither of which is abundant for the Ti-8X calculators), but I think that attempting to solve a handful of these problems will help me hone my assembly programming skills.</p>
 
@@ -114,7 +114,7 @@
 
 <p>The rest of this post will outline my programming environment on my Ubuntu 16.04 laptop, but I’m sure you could adapt it for other Linux machines easily. You’d probably have to find a different assembler (<a href="https://www.ticalc.org/archives/files/fileinfo/250/25051.html">TASM</a>) and emulator (<a href="http://wabbitemu.org/">WabbitEmu</a>) for support on Win/Mac.</p>
 
-<p>First, I will need an assembler to convert the .z80 files (or .asm if you prefer to name them so) into binaries that can be run on the microprocessor. I wanted a modern one that was open-source, so if there were any issues I could easily check out the code and figure out what was going on (because not a lot of people do this nowadays so most forums are pretty much dead). I settled on <a href="https://github.com/alberthdev/spasm-ng">SPASM-ng</a>, an updated fork of the older <a href="http://www.jaymoseley.com/hercules/compilers/spasm.htm">SPASM</a> assembler that has support for <a href="https://www.zilog.com/index.php?option=com_product&amp;task=product&amp;businessLine=1&amp;id=77&amp;parent_id=77&amp;Itemid=57">eZ80</a> now and fixed some bugs according to their README. There wasn’t a lot of documentation on their GitHub about the project, so since it was open source, I figured I’d write my own and in the process learn how the assembler works. I covered all the assembler directives and pre-processor commands, and it was pretty fun reverse-engineering their code to figure out how they all worked without any documentation.</p>
+<p>First, I will need an assembler to convert the .z80 files (or .asm if you prefer) into binaries that can be run on the microprocessor. I wanted a modern one that was open-source, so if there were any issues I could easily check out the code and figure out what was going on (because not a lot of people do this nowadays so most forums are pretty much dead). I settled on <a href="https://github.com/alberthdev/spasm-ng">SPASM-ng</a>, an updated fork of the older <a href="http://www.jaymoseley.com/hercules/compilers/spasm.htm">SPASM</a> assembler that has support for <a href="https://www.zilog.com/index.php?option=com_product&amp;task=product&amp;businessLine=1&amp;id=77&amp;parent_id=77&amp;Itemid=57">eZ80</a> now and fixed some bugs according to their README. There wasn’t a lot of documentation on their GitHub about the project, so since it was open source, I figured I’d write my own documentation and in the process learn how the assembler works. I covered all the assembler directives and pre-processor commands, and it was pretty fun reverse-engineering their code to figure out how they all worked without any documentation.</p>
 
 <p>The Ti-8X runs Z80 binaries (.bin) on the actual calculators, but in order to send them to the device, they need to be packed in the correct .8XX file type, corresponding to the model of calculator you’re actually trying to send it to. I found a universal python script called <a href="https://www.ticalc.org/archives/files/fileinfo/429/42915.html">BinPac8x</a> by Kerm Martian from <a href="https://www.cemetech.net/">Cemetech</a> that takes any Z80 binary and packages it according to the specified calculator type. According to <a href="http://merthsoft.com/linkguide/ti83+/fformat.html">this</a> file header format specification, I pared down the script so it just created the .8xp files needed for the Ti84+. This also allowed me to more easily learn what the script was doing (I could have just used Martian’s version, but I wanted to understand how it worked so I didn’t accidentally brick my calculator).</p>
 
