@@ -1,6 +1,8 @@
 ---
 title: HackLodge Log 1
+description: My first day at my second HackLodge
 date: 2020-01-04 19:00
+style: blogpost
 layout: blogpost
 ---
 

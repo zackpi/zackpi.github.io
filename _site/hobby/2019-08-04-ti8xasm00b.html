@@ -4,12 +4,12 @@
 <head>
     <title>zackpi &mdash; home</title>
     <meta charset="utf-8">
-        <meta property="og:title" content="zackpi"/>
-        <meta property="og:url" content="https://zackpi.github.io"/>
-        <meta property="og:image" content=""/>
-        <meta name="description" content="My name is zackpi, aka Zachary Pitcher">
-        <meta name="author" content="Zachary Pitcher">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="zackpi"/>
+    <meta property="og:url" content="https://zackpi.github.io"/>
+    <meta property="og:image" content=""/>
+    <meta name="description" content="My name is zackpi, aka Zachary Pitcher">
+    <meta name="author" content="Zachary Pitcher">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
@@ -23,7 +23,8 @@
 
     <link rel="icon" href="/assets/img/blog.png">
     <link href="https://fonts.googleapis.com/css?family=Alegreya|Roboto|Roboto+Mono" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/default.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/.css">
 </head>
 
 <body>
@@ -61,16 +62,23 @@
 </div>
 
 <div class="post">
-    	
+        
     <div class="post__title">
-    	<h1>Ti8x Z80 ASM Project Euler 00b</h1>
+        <h1>Ti8x Z80 ASM Project Euler 00b</h1>
     </div>
+
     <div class="post__date">
-    	<p>August 4, 2019</p>
+        <p>August 4, 2019</p>
     </div>
+    
     <div class="post__meta">
-    	<p></p>
+        <p></p>
     </div>
+    
+    <div class="post__description">
+        <p>Printing Hexadecimal and Decimal Numbers</p>
+    </div>
+
     <div class="post__content"?>
         <h3 id="how-bcalls-work">how bcalls work</h3>
 <p>Texas Instruments provided a lot of useful subroutines, dubbed <code class="highlighter-rouge">bcalls</code>, that perform some repetitive or complicated task such as interfacing with the LCD screen. These system routines are stored in ROM, so they can only by accessed by a “callback” of sorts and an interrupt from user memory. If we unpack the bcall() macro in the standard <code class="highlighter-rouge">ti83plus.inc</code> include file, we can see that it simply interrupts and places the address of the system routine in code memory right below the interrupting line. The interrupt vector reads off the last two bytes in the stack, which together form the 16-bit address of the line after the interrupt–where the system routine’s address is located. Then it simply dispatches to that routine. So bcalls are pretty powerful, because they mean I don’t have to write as much code and it’s a lot easier to interact with the hardware on the Ti8x because most of those functions are available in some form of bcall.</p>
@@ -139,7 +147,6 @@ yolo:
 
     </div>
 </div>
-
     </div>
 
 </body>

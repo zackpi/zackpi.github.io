@@ -13,19 +13,29 @@ layout: default
     </ul>
 </div>
 
-<div class="post">
-	
-    	
-    <div class="post__title">
+<div class="blogpost">
+    
+    <div class="blogpost__back">
+        <a href="/blog"><-</a>
+    </div>
+
+    <div class="blogpost__title">
     	<h1>{{ page.title }}</h1>
     </div>
-    <div class="post__date">
+
+    <div class="blogpost__description">
+        <p>{{ page.description }}</p>
+    </div>
+
+    <div class="blogpost__date">
     	<p>{{ page.date | date: '%B %-d, %Y' }}</p>
     </div>
-    <div class="post__meta">
+    
+    <div class="blogpost__meta">
     	<p>{{ tags_content }}</p>
     </div>
-    <div class="post__content"?>
+    
+    <div class="blogpost__content"?>
         {{ content }}
     </div>
 </div>

@@ -1,70 +1,47 @@
 ---
 ---
 
-@import "reset";
 @import "config";
 
-.blog {
-	padding-bottom: 30px;
-	h1 {
-		font-size: 1.4em;
-		margin-bottom: 30px;
-		text-align: left;
-	}
+$color-background: #344055;
+$color-accent: #266dd3;
+$color-primary:	#888098;
+$color-secondary:	#cfb3cd;
+$color-tertiary: #dfc2f2;
+
+
+html {
+	background: $color-background;
 }
 
-.header {
-	display: flex;
-	justify-content: space-between;
-	align-items: baseline;
-	padding-bottom: 50px;
-	@media screen and (max-width: $br) {
-		display: block;
-	}
-	h1 {
-		font-size: 1.5em;
-		margin-bottom: 0;
-		text-transform: uppercase;
-                letter-spacing: .2em
-	}
-	ul {
-		margin-top: 10px;
-		li {
-			display: inline;
-			padding: 0;
-			padding-left: 5px;
-		}
-	}
+a {
+	color: $color-accent;
 }
 
+.blogpost {
+	background: $color-primary;
+	border-radius: 10px;
+	margin: 0 auto;
+	margin-bottom: 80px;
+	width: 80%;
+	max-width: 900px;
 
-html{
-    background-color: black;
-}
-
-body{
-    font-family: "Monospace";
-    color: white;
-    font-size: 1.4em;
-}
-
-a{
-    color: green;
-}
-
-
-.post {
-	padding-bottom: 30px;
 	&__back {
-		a {
-		
-		}
+		background: $color-secondary;
+		border-radius: 10px;
+		text-align: center;
+		width: 50px;
+		position: relative;
+		left: -60px;
 	}
+
 	&__title {
 		display: block;
-		margin-top: 20px;
-		margin-bottom: 6px;
-		margin-left: 10%;
+		background: $color-secondary;
+		border-radius: 10px;
+		margin: 0 10% 5px 10%;
+		padding: 2px;
+		padding-left: 10px;
 		h1 {
 			display: inline-block;
 			font-size: 1.6em;
@@ -74,20 +51,34 @@ a{
 			text-decoration: none;
 		}
 	}
+
+	&__description {
+		display: block;
+		font-size: 1.0em;
+		font-style: italic;
+		margin: 0 10% 5px 10%;
+		padding-left: 10px;
+	}
+	
 	&__date {
+		margin: 0 10% 0 10%;
+		padding-left: 10px;
 		p {
-			font-size: 1em;
+			font-size: .75em;
 			font-style: italic;
-			margin-left: 10%;
 		}
 	}
+
 	&__meta {
 		p {
 
 		}
 	}
+	
 	&__content {
-		padding-top: 40px;
+		margin: 40px 10% 0 10%;
+		padding-bottom: 40px;
+
 		h1 {
 			font-size: 1.4em;
 			font-weight: 700;
@@ -104,8 +95,6 @@ a{
 			font-size: .75em;
 			line-height: 150%;
 			margin-bottom: 15px;
-			margin-left: 10%;
-			margin-right: 10%;
 		}
 		a {
 			padding-bottom: 1px;
@@ -177,6 +166,7 @@ a{
 				color:	#aca;
 			}
 		}
+
 		.highlight {
 			margin: 15px auto;
 			width: 60%;
@@ -195,15 +185,11 @@ a{
 			  -webkit-tab-size: 4;
 			}
 		}
+		
 		.codebreak {
 			margin: 15px;
 			border: 0;
 			border-bottom: 1px dashed $color-black;
 		}
-	}
-	&__description {
-		font-size: 1.0em;
-		font-style: italic;
-		line-height: 150%;
 	}
 }
