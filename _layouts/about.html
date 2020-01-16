@@ -15,15 +15,15 @@ layout: default
 
 <div class="about">
 
-    <div id="portraitContainer">
-        <canvas
-            id="portraitCanvas"
-            width="571"
-            height="468"
-        />
+    <div id="portrait-container">
+        <canvas id="portrait-canvas" width="571" height="468">
+            <img src="/assets/img/about/original.png" alt="my face" />
+        </canvas>
     </div>
 
     <div class="about__content">
         {{ content }}
     </div>
+
+    <canvas id="hidden-canvas" class="" width="571" height="468" />
 </div>

@@ -24,7 +24,9 @@
     <link rel="icon" href="/assets/img/blog.png">
     <link href="https://fonts.googleapis.com/css?family=Alegreya|Roboto|Roboto+Mono" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/assets/css/default.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/.css">
+    
+    <link rel="stylesheet" type="text/css" href="/assets/css/about.css">
+    <script src="/assets/js/about.js"></script>
 </head>
 
 <body>
@@ -63,18 +65,18 @@
 
 <div class="about">
 
-    <div id="portraitContainer">
-        <canvas
-            id="portraitCanvas"
-            width="571"
-            height="468"
-        />
+    <div id="portrait-container">
+        <canvas id="portrait-canvas" width="571" height="468">
+            <img src="/assets/img/about/original.png" alt="my face" />
+        </canvas>
     </div>
 
     <div class="about__content">
         <p>Hello friend! Welcome to my website. Make yourself at home. I would make a hot beverage but I’m just some text on a page… Well, while you’re here, why don’t you try checking out my projects page or my blog and if you’re brave hit the ~random~ button :O Enjoy your stay</p>
 
     </div>
+
+    <canvas id="hidden-canvas" class="" width="571" height="468" />
 </div>
     </div>
 
