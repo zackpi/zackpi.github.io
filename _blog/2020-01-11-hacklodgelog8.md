@@ -1,6 +1,7 @@
 ---
 title: HackLodge Log 8
 date: 2020-01-11 19:00
+style: blogpost
 layout: blogpost
 ---
 
