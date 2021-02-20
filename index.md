@@ -3,26 +3,11 @@ title: Homepage
 layout: homepage
 ---
 
-<br />
+# Zachary Pitcher
 
-┏[index](/)
-
-┃
-
-┠─╼ [about](/about)
-
-┃
-
-┠─╼ [blog](/blog)
-
-┃
-
-┠─╼ [hobby](/hobby)
-
-┃
-
-┠─╼ [work](/work)
-
-┃
-
-┖─╼ [random](/random)
+[index](/)
+[about](/about)
+[blog](/blog)
+[hobby](/hobby)
+[work](/work)
+[random](/random)
